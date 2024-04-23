@@ -4,12 +4,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { BurgerIngredientUI } from '@ui';
 import { TBurgerIngredientProps } from './type';
-import { useDispatch } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import {
   addConstructorItem,
   getIngredientsQuantitySelector
 } from '../../services/slices/burgerConstructorSlice';
-import { useSelector } from 'react-redux';
 
 export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
   ({ ingredient }) => {
@@ -20,10 +19,7 @@ export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
       dispatch(addConstructorItem({ ...ingredient, id: uuidv4() }));
     };
 
-    const q = useSelector(getIngredientsQuantitySelector);
-    console.log('BurgerIngredient quantity selector ->', q);
-    const count = q[ingredient._id];
-    console.log('count ->', count);
+    const count = useSelector(getIngredientsQuantitySelector)[ingredient._id];
 
     return (
       <BurgerIngredientUI

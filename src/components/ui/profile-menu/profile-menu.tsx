@@ -11,7 +11,7 @@ export const ProfileMenuUI: FC<ProfileMenuUIProps> = ({
 
   const handleLogoutAndNavigate = () => {
     handleLogout();
-    navigate('/login');
+    navigate('/login'); // idk how to do, to really navigate to /login. Cause of routing rules - i'm redirected to "/" main page.
   };
 
   return (

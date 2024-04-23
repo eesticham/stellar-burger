@@ -21,7 +21,9 @@ const feedsSlice = createSlice({
   initialState,
   reducers: {},
   selectors: {
-    getFeedsState: (state) => state
+    getFeedsState: (state) => {
+      return state;
+    }
   },
   extraReducers: (builder) => {
     builder

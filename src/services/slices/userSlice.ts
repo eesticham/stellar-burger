@@ -44,19 +44,18 @@ const UserSlice = createSlice({
   initialState,
   reducers: {},
   selectors: {
-    getUserState: (state) => state
+    getUserState: (state) => {
+      return state;
+    }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(register.pending, (state) => {
-        state.error = null;
-      })
+      .addCase(register.pending, (state) => {})
       .addCase(register.rejected, (state, action) => {
         state.error = action.error.message!;
       })
       .addCase(register.fulfilled, (state, action) => {
         state.isAuthChecked = true;
-        state.error = null;
         state.user = action.payload.user;
         localStorage.setItem('refreshToken', action.payload.refreshToken);
         setCookie('accessToken', action.payload.accessToken);

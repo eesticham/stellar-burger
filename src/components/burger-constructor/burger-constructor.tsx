@@ -1,4 +1,4 @@
-import { FC, useMemo, useEffect } from 'react';
+import { FC, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
@@ -17,41 +17,38 @@ export const BurgerConstructor: FC = () => {
   const constructorItems = useSelector((state) => state.burgerConstructor);
   const { orderRequest, order } = useSelector((state) => state.newOrder);
 
-  let dataToOrder: string[] = [];
+  const price = useMemo(() => {
+    return (
+      (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
+      constructorItems.ingredients.reduce(
+        (sum: number, ingredient: TConstructorIngredient) =>
+          sum + ingredient.price,
+        0
+      )
+    );
+  }, [constructorItems]);
 
-  const onOrderClick = () => {
+  const onOrderClick = useCallback(() => {
     if (!userIsAuth) {
       navigate('/login');
-    } else if (constructorItems.bun && constructorItems.ingredients) {
+    } else if (
+      constructorItems.bun &&
+      constructorItems.ingredients.length > 0
+    ) {
+      const dataToOrder = [
+        constructorItems.bun._id,
+        ...constructorItems.ingredients.map((ingredient) => ingredient._id),
+        constructorItems.bun._id
+      ];
       dispatch(newBurgerOrder(dataToOrder));
     }
-  };
+  }, [userIsAuth, constructorItems, dispatch, navigate]);
 
-  const closeOrderModal = () => {
+  const closeOrderModal = useCallback(() => {
     dispatch(clearOrder());
     dispatch(clearConstructor());
     navigate('/');
-  };
-
-  const price = useMemo(
-    () =>
-      (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
-      constructorItems.ingredients.reduce(
-        (s: number, v: TConstructorIngredient) => s + v.price,
-        0
-      ),
-    [constructorItems]
-  );
-
-  useEffect(() => {
-    if (constructorItems.bun && constructorItems.ingredients) {
-      dataToOrder = [
-        constructorItems.bun._id,
-        ...constructorItems.ingredients.map((ing) => ing._id),
-        constructorItems.bun._id
-      ];
-    }
-  }, [constructorItems]);
+  }, [dispatch, navigate]);
 
   return (
     <BurgerConstructorUI

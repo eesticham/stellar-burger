@@ -34,7 +34,9 @@ export const OrderInfo: FC = () => {
     const ingredientsInfo = orderData.ingredients.reduce(
       (acc: TIngredientsWithCount, item) => {
         if (!acc[item]) {
-          const ingredient = ingredients.find((ing) => ing._id === item);
+          const ingredient = ingredients.find(
+            (element) => element._id === item
+          );
           if (ingredient) {
             acc[item] = {
               ...ingredient,

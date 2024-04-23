@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import '../../index.css';
 import styles from './app.module.css';
-import store, { useDispatch } from '../../services/store';
+import { useDispatch } from '../../services/store';
 
 import { AppHeader, Modal, IngredientDetails, OrderInfo } from '@components';
 import { ProtectedRoute } from '../protected-route/ProtectedRoute';
@@ -29,7 +29,9 @@ const App = () => {
   useEffect(() => {
     dispatch(getIngredients());
     dispatch(checkUserAuth());
-  }, []);
+  }, [dispatch]);
+
+  const closeModal = useCallback(() => navigate(-1), [navigate]);
 
   return (
     <div className={styles.app}>
@@ -102,7 +104,7 @@ const App = () => {
           <Route
             path='/feed/:number'
             element={
-              <Modal title={''} onClose={() => navigate(-1)}>
+              <Modal title={''} onClose={closeModal}>
                 <OrderInfo />
               </Modal>
             }
@@ -110,7 +112,7 @@ const App = () => {
           <Route
             path='/ingredients/:id'
             element={
-              <Modal title={'Детали ингридиента'} onClose={() => navigate(-1)}>
+              <Modal title={'Детали ингридиента'} onClose={closeModal}>
                 <IngredientDetails />
               </Modal>
             }
@@ -118,7 +120,7 @@ const App = () => {
           <Route
             path='/profile/orders/:number'
             element={
-              <Modal title={''} onClose={() => navigate(-1)}>
+              <Modal title={''} onClose={closeModal}>
                 <ProtectedRoute>
                   <OrderInfo />
                 </ProtectedRoute>

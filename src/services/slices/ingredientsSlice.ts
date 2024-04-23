@@ -30,7 +30,9 @@ const ingredientsSlice = createSlice({
   initialState,
   reducers: {},
   selectors: {
-    getIngredientsSelector: (state) => state
+    getIngredientsSelector: (state) => {
+      return state;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -47,12 +49,19 @@ const ingredientsSlice = createSlice({
         }
       })
       .addCase(getIngredients.fulfilled, (state, action) => {
+        const ingredients = action.payload;
         state.loading = false;
-        state.ingredients = action.payload;
-        if (action.payload) {
-          state.buns = action.payload.filter((ing) => ing.type === 'bun');
-          state.mains = action.payload.filter((ing) => ing.type === 'main');
-          state.sauces = action.payload.filter((ing) => ing.type === 'sauce');
+        state.ingredients = ingredients;
+        if (ingredients) {
+          state.buns = ingredients.filter(
+            (ingredient) => ingredient.type === 'bun'
+          );
+          state.mains = ingredients.filter(
+            (ingredient) => ingredient.type === 'main'
+          );
+          state.sauces = ingredients.filter(
+            (ingredient) => ingredient.type === 'sauce'
+          );
         }
       });
   }

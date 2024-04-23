@@ -1,42 +1,42 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TConstructorIngredient } from '../../utils/types';
-import { getIngredients } from './ingredientsSlice';
 
-type TConstructorState = {
+type TBurgerConstructorState = {
   bun: TConstructorIngredient | null;
   ingredients: TConstructorIngredient[];
 };
 
-export const initialState: TConstructorState = {
+export const initialState: TBurgerConstructorState = {
   bun: null,
   ingredients: []
-};
-
-type IngredientsQuantity = {
-  [key: string]: number;
 };
 
 const burgerConstructorSlice = createSlice({
   name: 'burgerConstructor',
   initialState,
   reducers: {
-    addConstructorItem: (state, action) => {
-      const type = action.payload.type;
+    addConstructorItem: (
+      state,
+      action: PayloadAction<TConstructorIngredient>
+    ) => {
+      const ingredient = action.payload;
 
-      if (type === 'bun') {
-        state.bun = action.payload;
-      } else if (type === 'main' || type === 'sauce') {
-        state.ingredients.push(action.payload);
+      if (ingredient.type === 'bun') {
+        state.bun = ingredient;
+      } else {
+        state.ingredients.push(ingredient);
       }
     },
-    removeConstructorItem: (state, action) => {
+    removeConstructorItem: (state, action: PayloadAction<string>) => {
       state.ingredients = state.ingredients.filter(
-        (el) => el.id !== action.payload
+        (ingredient) => ingredient.id !== action.payload
       );
     },
-    moveConstructorItem: (state, action) => {
-      const index = action.payload.index;
-      const move = action.payload.move;
+    moveConstructorItem: (
+      state,
+      action: PayloadAction<{ index: number; move: 'up' | 'down' }>
+    ) => {
+      const { index, move } = action.payload;
 
       if (move === 'up') {
         [state.ingredients[index], state.ingredients[index - 1]] = [
@@ -53,17 +53,18 @@ const burgerConstructorSlice = createSlice({
     clearConstructor: (state) => (state = initialState)
   },
   selectors: {
-    getConstructorSelector: (state) => {
-      state;
+    getBurgerConstructorSelector: (state) => {
+      return state;
     },
     getIngredientsQuantitySelector: (state) => {
-      const quantities: IngredientsQuantity = {};
-      if (state.bun) {
-        quantities[state.bun._id] = (quantities[state.bun._id] || 0) + 2;
+      const quantities: { [key: string]: number } = {};
+      const { bun, ingredients } = state;
+      if (bun) {
+        quantities[bun._id] = (quantities[bun._id] || 0) + 2;
       }
 
-      state.ingredients.forEach((el) => {
-        quantities[el._id] = (quantities[el._id] || 0) + 1;
+      ingredients.forEach((ingredient) => {
+        quantities[ingredient._id] = (quantities[ingredient._id] || 0) + 1;
       });
 
       return quantities;
@@ -72,7 +73,7 @@ const burgerConstructorSlice = createSlice({
 });
 
 export const constructorReducer = burgerConstructorSlice.reducer;
-export const { getConstructorSelector, getIngredientsQuantitySelector } =
+export const { getBurgerConstructorSelector, getIngredientsQuantitySelector } =
   burgerConstructorSlice.selectors;
 export const {
   addConstructorItem,
