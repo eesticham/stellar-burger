@@ -1,6 +1,5 @@
 import { FC, memo } from 'react';
 import { useLocation } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 
 import { BurgerIngredientUI } from '@ui';
 import { TBurgerIngredientProps } from './type';
@@ -16,7 +15,7 @@ export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
     const dispatch = useDispatch();
 
     const handleAdd = () => {
-      dispatch(addConstructorItem({ ...ingredient, id: uuidv4() }));
+      dispatch(addConstructorItem(ingredient));
     };
 
     const count = useSelector(getIngredientsQuantitySelector)[ingredient._id];

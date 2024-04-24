@@ -6,16 +6,18 @@ import { TIngredient, TOrder } from '@utils-types';
 import { useSelector } from '../../services/store';
 import { getOrderByNumberApi } from '@api';
 
+const initialOrder: TOrder = {
+  _id: '',
+  status: '',
+  name: '',
+  createdAt: '',
+  updatedAt: '',
+  number: 0,
+  ingredients: ['']
+};
+
 export const OrderInfo: FC = () => {
-  const [orderData, setOrderData] = useState<TOrder>({
-    _id: '',
-    status: '',
-    name: '',
-    createdAt: '',
-    updatedAt: '',
-    number: 0,
-    ingredients: ['']
-  });
+  const [orderData, setOrderData] = useState<TOrder>(initialOrder);
 
   const ingredients: TIngredient[] = useSelector(
     (state) => state.ingredients.ingredients

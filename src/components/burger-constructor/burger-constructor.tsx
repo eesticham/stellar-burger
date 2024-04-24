@@ -31,10 +31,9 @@ export const BurgerConstructor: FC = () => {
   const onOrderClick = useCallback(() => {
     if (!userIsAuth) {
       navigate('/login');
-    } else if (
-      constructorItems.bun &&
-      constructorItems.ingredients.length > 0
-    ) {
+    }
+    
+    if (constructorItems.bun && constructorItems.ingredients.length > 0) {
       const dataToOrder = [
         constructorItems.bun._id,
         ...constructorItems.ingredients.map((ingredient) => ingredient._id),
@@ -44,11 +43,11 @@ export const BurgerConstructor: FC = () => {
     }
   }, [userIsAuth, constructorItems, dispatch, navigate]);
 
-  const closeOrderModal = useCallback(() => {
+  const closeOrderModal = (() => {
     dispatch(clearOrder());
     dispatch(clearConstructor());
     navigate('/');
-  }, [dispatch, navigate]);
+  });
 
   return (
     <BurgerConstructorUI

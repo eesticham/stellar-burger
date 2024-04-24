@@ -3,7 +3,7 @@ import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import '../../index.css';
 import styles from './app.module.css';
 import { useDispatch } from '../../services/store';
-
+import { authCheck } from '../../services/slices/userSlice';
 import { AppHeader, Modal, IngredientDetails, OrderInfo } from '@components';
 import { ProtectedRoute } from '../protected-route/ProtectedRoute';
 import {
@@ -30,6 +30,9 @@ const App = () => {
     dispatch(getIngredients());
     dispatch(checkUserAuth());
   }, [dispatch]);
+  useEffect(() => {
+    dispatch(checkUserAuth()).finally(() => dispatch(authCheck()));
+}, [dispatch, authCheck]);
 
   const closeModal = useCallback(() => navigate(-1), [navigate]);
 

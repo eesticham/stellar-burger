@@ -8,16 +8,5 @@ export const ProfileMenu: FC = () => {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
 
-  const handleLogout = () => {
-    dispatch(logout())
-      .unwrap()
-      .then(() => {
-        window.location.reload(); // reload page to reset UI data.
-      })
-      .catch((error) => {
-        console.error('Logout failed:', error);
-      });
-  };
-
-  return <ProfileMenuUI handleLogout={handleLogout} pathname={pathname} />;
+  return <ProfileMenuUI handleLogout={() => dispatch(logout())} pathname={pathname} />;
 };
