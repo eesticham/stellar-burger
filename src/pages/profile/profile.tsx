@@ -1,12 +1,13 @@
+import { FC, SyntheticEvent, FormEvent, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { ProfileUI } from '@ui-pages';
-import { FC, SyntheticEvent, useEffect, useState } from 'react';
+import { useSelector, useDispatch } from '../../services/store';
+import { updateUser } from '../../services/slices/userSlice';
 
 export const Profile: FC = () => {
-  /** TODO: взять переменную из стора */
-  const user = {
-    name: '',
-    email: ''
-  };
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.userData.user!);
 
   const [formValue, setFormValue] = useState({
     name: user.name,
@@ -27,8 +28,9 @@ export const Profile: FC = () => {
     formValue.email !== user?.email ||
     !!formValue.password;
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    dispatch(updateUser(formValue));
   };
 
   const handleCancel = (e: SyntheticEvent) => {
