@@ -42,11 +42,7 @@ const ingredientsSlice = createSlice({
       })
       .addCase(getIngredients.rejected, (state, action) => {
         state.loading = false;
-        if (action.error.message) {
-          state.error = action.error.message;
-        } else {
-          state.error = null;
-        }
+        state.error = action.error.message ? action.error.message : null;
       })
       .addCase(getIngredients.fulfilled, (state, action) => {
         const ingredients = action.payload;

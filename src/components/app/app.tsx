@@ -32,7 +32,7 @@ const App = () => {
   }, [dispatch]);
   useEffect(() => {
     dispatch(checkUserAuth()).finally(() => dispatch(authCheck()));
-}, [dispatch, authCheck]);
+  }, [dispatch, authCheck]);
 
   const closeModal = useCallback(() => navigate(-1), [navigate]);
 
