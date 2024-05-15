@@ -1,7 +1,7 @@
 describe('Проверка функциональности', () => {
 
     it('сервис должен быть доступен по адресу: localhost:4000', () => {
-        cy.visit('http://localhost:4000'); 
+        cy.visit(''); // baseUrl is set in the cypress.config.ts
     });
 
     function cypressAttribute (name: string) {
@@ -24,7 +24,7 @@ describe('Проверка функциональности', () => {
         cy.setCookie('accessToken', 'mockAccessToken');
         localStorage.setItem('refreshToken', 'mockRefreshToken');
 
-        cy.visit('http://localhost:4000'); // to access the page for further interaction
+        cy.visit(''); // to access the page for further interaction
     });
 
     // clear mock tokens 
