@@ -14,7 +14,12 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
     <nav className={`${styles.menu} p-4`}>
       <div className={styles.menu_part_left}>
         <>
-          <NavLink to='/' className={({ isActive }) => isActive ? `${styles.link} ${styles.link_active}` : styles.link}>
+          <NavLink
+            to='/'
+            className={({ isActive }) =>
+              isActive ? `${styles.link} ${styles.link_active}` : styles.link
+            }
+          >
             <BurgerIcon type={'primary'} />
             <p className='text text_type_main-default ml-2 mr-10'>
               Конструктор
@@ -22,7 +27,12 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
           </NavLink>
         </>
         <>
-          <NavLink to='/feed' className={({ isActive }) => isActive ? `${styles.link} ${styles.link_active}` : styles.link}>
+          <NavLink
+            to='/feed'
+            className={({ isActive }) =>
+              isActive ? `${styles.link} ${styles.link_active}` : styles.link
+            }
+          >
             <ListIcon type={'primary'} />
             <p className='text text_type_main-default ml-2'>Лента заказов</p>
           </NavLink>
@@ -32,7 +42,12 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
         <Logo className='' />
       </div>
       <div className={styles.link_position_last}>
-        <NavLink to='/profile' className={({ isActive }) => isActive ? `${styles.link} ${styles.link_active}` : styles.link}>
+        <NavLink
+          to='/profile'
+          className={({ isActive }) =>
+            isActive ? `${styles.link} ${styles.link_active}` : styles.link
+          }
+        >
           <ProfileIcon type={'primary'} />
           <p className='text text_type_main-default ml-2'>
             {userName || 'Личный кабинет'}
